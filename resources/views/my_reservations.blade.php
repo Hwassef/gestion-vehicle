@@ -52,6 +52,7 @@
                         @if($v->id == $reservation->vehicle_id)
                         <td>{{$v->vehicle_brand}}</td>
                         @endif
+                        @endforeach
                         <td>{{$reservation -> reservation_period}} Days</td>
                         <td>Add Days Left Atribute</td>
                         <td>{{$reservation -> number_of_travels}}</td>
@@ -60,7 +61,6 @@
                             {{$destination}}
                             @endforeach
                         </td>
-                        @endforeach
                         <td>{{$reservation -> arrival_date}}</td>
                         <td>{{$reservation -> arrival_hour}}</td>
                         <td>{{$reservation -> state ? 'Approved' : 'Waiting For Admin Approval'}}</td>
@@ -94,6 +94,7 @@
                         @if($v->id == $reservation->vehicle_id)
                         <td>{{$v->vehicle_brand}}</td>
                         @endif
+                        @endforeach
                         <td>{{$reservation -> reservation_period}} Days</td>
                         <td>{{$reservation -> number_of_travels}}</td>
                         <td>
@@ -101,7 +102,6 @@
                             {{$destination}}
                             @endforeach
                         </td>
-                        @endforeach
                         <td>{{$reservation -> arrival_date}}</td>
                         <td>{{$reservation -> arrival_hour}}</td>
                         <td>{{$reservation -> state ? 'Approved' : 'Waiting For Admin Approval'}}</td>
@@ -135,6 +135,7 @@
                         @if($v->id == $reservation->vehicle_id)
                         <td>{{$v->vehicle_brand}}</td>
                         @endif
+                        @endforeach
                         <td>{{$reservation -> reservation_period}} Days</td>
                         <td>{{$reservation -> number_of_travels}}</td>
                         <td>
@@ -142,7 +143,6 @@
                             {{$destination}}
                             @endforeach
                         </td>
-                        @endforeach
                         <td>{{$reservation -> arrival_date}}</td>
                         <td>{{$reservation -> arrival_hour}}</td>
                         <td>{{$reservation -> state ? 'Approved' : 'Waiting For Admin Approval'}}</td>

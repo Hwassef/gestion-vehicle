@@ -20,30 +20,32 @@ class ManageLocalitiesController extends Controller
         return View::make('manage_localities', ["localities" => $localities], ["nb" => $nb]);
     }
 
-    public function insertData(Request $request)
+    public function addLocality(Request $request)
     {
         $Locality = new Locality();
         $Locality -> locality_name = $request -> input('locality_name');
         $Locality -> save();
-        return redirect()->back()->with('status','Vehicle Added Successfully');
+        notify()->success('You Have Added A Locality !');
+        return redirect()->back();
     }
 
 
 
-    public function Destroy(Request $request)
+    public function destroy(Request $request)
     {
-
-        $LocalityId =  $request -> localityId;
+        $LocalityId =  $request -> deleteModalLocalityId;
         $Locality = new Locality();
         $Locality::destroy($LocalityId);
-        return Redirect::back()->with('status', 'Data Inserted ! :)');
+        notify()->success('You Have Deleted A Locality !');
+        return Redirect::back();
 
     }
 
-    public function update(Request $request){
-        $Locality = Locality::find($request->id);
+    public function updateLocality(Request $request){
+        $Locality = Locality::find($request->updateModalLocalityId);
         $Locality->locality_name = $request->input('locality_name');
         $Locality->update();
-        return redirect()->back()->with('status','Student Updated Successfully');
+        notify()->success('You Have Updated A Locality !');
+        return redirect()->back();
     }
 }

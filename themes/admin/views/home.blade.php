@@ -10,9 +10,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="{{url('css/adminSideNavBarStyle.css')}}">
 
-
-
-
 </head>
 
 <body>
@@ -23,184 +20,108 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
 
-@include('layouts.sideNavBar')
+    @include('layouts.sideNavBar')
     <div class="container-fluid m-0">
         <div class="row">
-        <nav class="navbar navbar-expand-lg " style="background: #FFFFFF;">
-            <a class="navbar-brand" href="#">Navbar</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                </ul>
-            </div>
-        </nav>
-        <div class="row mt-3">
-            <div class="col">
-                <div class="card-header">
-                    <h4>Daily Visitors</h4>
-                    <div class="card-body d-flex justify-content-center">
-                        <canvas id="layanan" width="240px" height="240px"></canvas>
+            <nav class="navbar navbar-expand-lg ">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                                <i class="far fa-bell"></i>
+                                <span class="badge badge-light" style="background: grey;">
+                                    {{auth()->user()->notifications -> count()}}
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu" style="padding: 0;margin:0;list-style: none;width:18em;min-width:100%;z-index:99;position:absolute;overflow:visible;">
+                                <li class="mt-2">
+                                    <span style="margin-left:7px;">Notifications</span>
+                                    <a href="#"><span class="text-right" style="margin-left: 3.5em;">Mark All As Read</span></a>
+                                </li>
+                                <div class="row mt-3"></div>
+                                @foreach(auth()->user()->notifications as $notification)
+                                <li class="list-group-item list-group-item-success">{{$notification->data['message']}}</li>
+                                @endforeach
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="row mt-3">
+                <div class="col">
+                    <div class="card-header">
+                        <h4>TOP 5 Vehicles</h4>
+                        <div class="card-body d-flex justify-content-center">
+                            <canvas id="bar-chart" width="1800" height="450"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="card-header">
-                    <h4>Dunno</h4>
-                    <div class="card-body d-flex justify-content-center">
-                        <canvas id="layanan_subbagian" width="240px" height="240px"></canvas>
+            <div class="row mt-3">
+                <div class="col">
+                    <div class="card-header">
+                        <h4>TOP 5 Clients</h4>
+                        <div class="card-body d-flex justify-content-center">
+                            <canvas id="layanan1" width="1800" height="450""></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row mt-3">
-            <div class="col">
-                <div class="card-header">
-                    <h4>Daily Visitors</h4>
-                    <div class="card-body d-flex justify-content-center">
-                        <canvas id="layanan1" width="240px" height="240px"></canvas>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card-header">
-                    <h4>Dunno</h4>
-                    <div class="card-body d-flex justify-content-center">
-                        <canvas id="layanan_subbagian1" width="240px" height="240px"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     </div>
 
     <script>
-        $(function() {
-            var ctx = document.getElementById("layanan").getContext('2d');
-            var data = {
-                datasets: [{
-                    data: [10, 20, 30],
-                    backgroundColor: [
-                        '#3c8dbc',
-                        '#f56954',
-                        '#f39c12',
-                    ],
-                }],
+        new Chart(document.getElementById("bar-chart"), {
+            type: 'bar',
+            data: {
                 labels: [
-                    'Request',
-                    'Layanan',
-                    'Problem'
-                ]
-            };
-            var myDoughnutChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: data,
-                options: {
-                    responsive: false,
-                    maintainAspectRatio: false,
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            boxWidth: 12
-                        }
-                    }
-                }
-            });
-
-            var ctx_2 = document.getElementById("layanan_subbagian").getContext('2d');
-            var data_2 = {
+                    'BMW',
+                    'Mercedes',
+                    'IZUZU',
+                    'DMAX',
+                    'CLIO'
+                ],
                 datasets: [{
-                    data: [10, 20, 30],
-                    backgroundColor: [
-                        '#3c8dbc',
-                        '#f56954',
-                        '#f39c12',
-                    ],
-                }],
-                labels: [
-                    'Request',
-                    'Layanan',
-                    'Problem'
-                ]
-            };
-            var myDoughnutChart_2 = new Chart(ctx_2, {
-                type: 'doughnut',
-                data: data_2,
-                options: {
-                    responsive: false,
-                    maintainAspectRatio: false,
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            boxWidth: 12
-                        }
-                    }
+                    label: "Population (millions)",
+                    backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+                    data: [5, 4, 2, 8, 1]
+                }]
+            },
+            options: {
+                legend: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: 'Number Of reservations'
                 }
-            });
+            }
         });
-        $(function() {
-            var ctx = document.getElementById("layanan1").getContext('2d');
-            var data = {
-                datasets: [{
-                    data: [10, 20, 30],
-                    backgroundColor: [
-                        '#3c8dbc',
-                        '#f56954',
-                        '#f39c12',
-                    ],
-                }],
+        new Chart(document.getElementById("layanan1"), {
+            type: 'bar',
+            data: {
                 labels: [
-                    'Request',
-                    'Layanan',
-                    'Problem'
-                ]
-            };
-            var myDoughnutChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: data,
-                options: {
-                    responsive: false,
-                    maintainAspectRatio: false,
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            boxWidth: 12
-                        }
-                    }
-                }
-            });
-
-            var ctx_2 = document.getElementById("layanan_subbagian1").getContext('2d');
-            var data_2 = {
+                    'Wassef Hassine',
+                    'Wahbi Hassine',
+                    'Ali Njim',
+                    'Ahmed Hassine',
+                    'Med Dhia Lajili'
+                ],
                 datasets: [{
-                    data: [10, 20, 30],
-                    backgroundColor: [
-                        '#3c8dbc',
-                        '#f56954',
-                        '#f39c12',
-                    ],
-                }],
-                labels: [
-                    'Request',
-                    'Layanan',
-                    'Problem'
-                ]
-            };
-            var myDoughnutChart_2 = new Chart(ctx_2, {
-                type: 'doughnut',
-                data: data_2,
-                options: {
-                    responsive: false,
-                    maintainAspectRatio: false,
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            boxWidth: 12
-                        }
-                    }
+                    label: "Population (millions)",
+                    backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+                    data: [4, 6, 2, 8, 1]
+                }]
+            },
+            options: {
+                legend: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: 'Number Of reservations'
                 }
-            });
+            }
         });
     </script>
 

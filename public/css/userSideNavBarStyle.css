@@ -8,11 +8,12 @@
 }
 
 /* maybe change to #407CAC */
-body {
+body,html {
     /* display: flex; */
     /* min-height: 100vh; */
     /* background: #6843d1; */
     height: 100%;
+    overflow: hidden;
 
 }
 
@@ -47,7 +48,6 @@ body {
     position: relative;
     list-style: none;
     width: 100%;
-    margin-top: 47px;
 
 }
 

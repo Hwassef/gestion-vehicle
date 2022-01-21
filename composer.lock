@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9b24aaf160980d046330afec1d3c13d6",
+    "content-hash": "70d415aa06eac9bfeb4be7bd30827989",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -61,6 +61,53 @@
                 "source": "https://github.com/asm89/stack-cors/tree/v2.0.3"
             },
             "time": "2021-03-11T06:42:03+00:00"
+        },
+        {
+            "name": "boytunghc/laravel-mongo-notifiable",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/alexzvn/laravel-mongo-notifiable.git",
+                "reference": "fd716d83ff548ffdc10f76d62e620479bdf18fa8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/alexzvn/laravel-mongo-notifiable/zipball/fd716d83ff548ffdc10f76d62e620479bdf18fa8",
+                "reference": "fd716d83ff548ffdc10f76d62e620479bdf18fa8",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0|^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Alexzvn\\LaravelMongoNotifiable\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alex",
+                    "email": "boytunghc@gmail.com",
+                    "homepage": "https://github.com/alexzvn/laravel-mongo-notifiable",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A trait will help you connect to mongodb and do notification",
+            "homepage": "https://github.com/alexzvn/laravel-mongo-notifiable",
+            "keywords": [
+                "Alexzvn",
+                "laravel-mongo-notifiable"
+            ],
+            "support": {
+                "issues": "https://github.com/alexzvn/laravel-mongo-notifiable/issues",
+                "source": "https://github.com/alexzvn/laravel-mongo-notifiable/tree/v1.0.0"
+            },
+            "time": "2021-08-17T08:00:40+00:00"
         },
         {
             "name": "brick/math",

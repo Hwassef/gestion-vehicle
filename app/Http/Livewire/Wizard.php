@@ -5,9 +5,10 @@ namespace App\Http\Livewire;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 use App\Models\Reservation;
-use App\Models\User;
+use App\Models\Admin;
 use App\Models\Vehicle;
 use App\Notifications\AdminApprovedReservation;
+use App\Notifications\NewReservationRequest;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
@@ -97,7 +98,8 @@ class Wizard extends Component
             'reservation_period' => $numberOfDays,
             'arrival_hour' => $dt->toTimeString(),
         ]);
-
+        $admin = Admin::get();
+        Notification::send($admin, new NewReservationRequest());
         $this->successMessage = 'Reservation Completed. Waiting For Admin Approaval';
         $this->clearForm();
 

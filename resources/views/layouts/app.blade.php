@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" integrity="sha512-BnbUDfEUfV0Slx6TunuB042k9tuKe3xrD6q4mg5Ed72LTgzDIcLPxg6yI2gcMFRyomt+yJJxE+zJwNmxki6/RA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://use.fontawesome.com/10376d63f8.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-
+    <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
     <!-- Styles -->
     @livewireStyles
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -31,7 +31,7 @@
 
 </head>
 
-<body>
+<body style="background: #F1F2F3;">
     <div>
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
@@ -70,15 +70,33 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
                                 <i class="far fa-bell"></i>
-                                <span class="badge badge-light">
-
+                                <span class="badge badge-light" style="background: grey;">
+                                    {{auth()->user()->notifications->where('type', 'App\Notifications\AdminApprovedReservation') -> count()}}
                                 </span>
                             </a>
-                            <ul class="dropdown-menu">
-
-
+                            <ul class="dropdown-menu" style="padding: 0;margin:0;list-style: none;width:15em;min-width:100%;z-index:99;position:absolute;overflow:visible;">
+                                @foreach(auth()->user()->notifications as $notification)
+                                <li class="list-group-item list-group-item-success">{{$notification->data['message']}}</li>
+                                @endforeach
                             </ul>
                         </li>
+
+                        <li class="dropdown ml-4">
+                            <a href="#" class="dropdown" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                                <i class="fas fa-envelope-open-text"></i>
+                                <span class="badge badge-light" style="background: grey;">
+                                    {{auth()->user()->notifications ->where('type', 'App\Notifications\AdminAnsweredLetter') -> count()}}
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu" style="padding: 0;margin:0;list-style: none;width:15em;min-width:100%;z-index:99;position:absolute;overflow:visible;">
+                                @foreach(auth()->user()->notifications as $notification)
+                                @if($notification -> type == "App\Notifications\AdminAnsweredLetter")
+                                <li class="list-group-item list-group-item-success">{{$notification->data['message']}}</li>
+                                @endif
+                                @endforeach
+                            </ul>
+                        </li>
+
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->name }} <span class="caret"></span>
@@ -104,7 +122,7 @@
         <div class="drawer_container" style="display: flex; min-height: 100vh;">
             <div class="navigation">
                 <ul>
-                    <li>
+                    <li style="margin-top: 15px;">
                         <a href="#">
                             <span class="icon">
                                 <i class="fas fa-home"></i>
@@ -112,7 +130,7 @@
                             <span class="title">Home</span>
                         </a>
                     </li>
-                    <li>
+                    <li style="margin-top: 48px;">
                         <a href="{{route('vehicles_list')}}">
                             <span class="icon">
                                 <i class="fas fa-car-side"></i>
@@ -122,7 +140,7 @@
                             <span class="title">Vehicles</span>
                         </a>
                     </li>
-                    <li>
+                    <li style="margin-top: 48px;">
                         <a href="{{route('user.showReservations')}}">
                             <span class="icon">
                                 <i class="fas fa-clipboard-list"></i>
@@ -131,18 +149,18 @@
                             <span class="title">My Reservations</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="#">
+                    <li style="margin-top: 48px;">
+                        <a href="{{route('user.showContact')}}">
                             <span class="icon">
-                                <i class="fas fa-history"></i>
+                                <i class="fas fa-file-signature"></i>
                             </span>
 
-                            <span class="title">History</span>
+                            <span class="title">Contact</span>
                         </a>
                     </li>
                     @guest
                     @if (Route::has('login'))
-                    <li>
+                    <li style="margin-top: 48px;">
                         <a href="#">
                             <span class="icon">
                                 <i class="fas fa-sign-in-alt"></i>
@@ -153,7 +171,7 @@
                     </li>
                     @endif
                     @else
-                    <li>
+                    <li style="margin-top: 48px;">
                         <a href="#">
                             <span class="icon">
                                 <i class="fas fa-sign-out-alt"></i>
@@ -162,7 +180,7 @@
                         </a>
                     </li>
                     @endguest
-                    <li>
+                    <li style="margin-top: 48px;">
                         <a href="#">
                             <span class="icon">
                                 <i class="fas fa-copyright"></i>

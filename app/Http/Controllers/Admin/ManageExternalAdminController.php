@@ -27,6 +27,27 @@ class ManageExternalAdminController extends Controller
         $pass = $request->input('password');
         $externalAdmin -> password = Hash::make($pass);
         $externalAdmin -> save();
-        return redirect()->back()->with('message', 'The success message!');
+        notify()->success('You Have Added A New External Admin !');
+        return Redirect::back();
+    }
+
+    public function destroy (Request $request)
+    {
+        $externalAdminId = $request -> deleteExternalAdminId;
+        $externalAdmin = new AdminExterne();
+        $externalAdmin::destroy($externalAdminId);
+        notify()->success('You Have Deleted An External Admin !');
+        return Redirect::back();
+    }
+
+    public function updateExternalAdmin(Request $request)
+    {
+        $externalAdminId = $request -> updateExternalAdminId;
+        $externalAdmin = AdminExterne::find($externalAdminId);
+        $externalAdmin -> full_name = $request -> full_name;
+        $externalAdmin -> email = $request -> email;
+        $externalAdmin -> update();
+        notify()->success('You Have Updated An External Admin !');
+        return Redirect::back();
     }
 }

@@ -8,7 +8,7 @@ use Jenssegers\Mongodb\Eloquent\Model;
 class VehicleType extends Model
 {
     use HasFactory;
-    protected $collection = 'vehicles_type';
+    protected $collection = 'vehicle_types';
         /**
      * The attributes that are mass assignable.
      *

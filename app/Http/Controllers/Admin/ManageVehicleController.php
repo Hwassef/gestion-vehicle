@@ -44,7 +44,8 @@ class ManageVehicleController extends Controller
             $Vehicle->vehicle_pictures = implode("|", $picture);
             $Vehicle->save();
 
-            return redirect()->back()->with('status', 'Vehicle Added Successfully');
+            notify()->success('You Have Added A Vehicle !');
+            return Redirect::back();
             $user = User::where('id', Auth()->user()->id)
                 ->firstOrFail();
             Notification::send($user, new AdminApprovedReservation());
@@ -52,12 +53,49 @@ class ManageVehicleController extends Controller
     }
 
 
-    public function Destroy(Request $request)
+    public function destroy(Request $request)
     {
-
-        $VehicleTypeId =  $request->vehicleId;
+        $VehicleTypeId =  $request->deleteVehicleId;
         $Vehicle = new Vehicle();
         $Vehicle::destroy($VehicleTypeId);
-        return Redirect::back()->with('status', 'Data Inserted ! :)');
+        notify()->success('You Have Deleted A Vehicle !');
+        return Redirect::back();
+    }
+
+    public function updateVehicle(Request $request)
+    {
+        $picture = array();
+        if ($files = $request->file('vehicle_pictures')) {
+            foreach ($files as $file) {
+                $name = $file->getClientOriginalName();
+                $filename = pathinfo($name, PATHINFO_FILENAME);
+                $extention = $file->getClientOriginalExtension();
+                $FileNameToStore = $filename . '_' . time() . '.' . $extention;
+                $file->storeAs('public/vehicles', $FileNameToStore);
+                $picture[] = $FileNameToStore;
+            }
+            $vehicleId = $request->updateVehicleId;
+            $vehicle = Vehicle::find($vehicleId);
+            $vehicle->vehicle_registration_number = $request->vehicle_registration_number;
+            $vehicle->vehicle_brand = $request->vehicle_brand;
+            $vehicle->vehicle_power = $request->vehicle_power;
+            $vehicle->vehicle_number_of_places = $request->places_number;
+            $vehicle->vehicle_pictures = implode("|", $picture);
+            $vehicle->save();
+            notify()->success('You Have Updated A Vehicle !');
+            return Redirect::back();
+        }
+        else
+        {
+            $vehicleId = $request->updateVehicleId;
+            $vehicle = Vehicle::find($vehicleId);
+            $vehicle->vehicle_registration_number = $request->vehicle_registration_number;
+            $vehicle->vehicle_brand = $request->vehicle_brand;
+            $vehicle->vehicle_power = $request->vehicle_power;
+            $vehicle->vehicle_number_of_places = $request->places_number;
+            $vehicle->save();
+            notify()->success('You Have Updated A Vehicle !');
+            return Redirect::back();
+        }
     }
 }

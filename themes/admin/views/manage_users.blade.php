@@ -11,7 +11,105 @@
     <link rel="stylesheet" href="{{url('css/adminSideNavBarStyle.css')}}">
 
 
+    <style>
+        .modal-confirm {
+            color: #636363;
+            width: 452px;
+            margin: 30px auto;
+        }
 
+        .modal-confirm .modal-content {
+            padding: 20px;
+            border-radius: 5px;
+            border: none;
+            font-size: 14px;
+        }
+
+        .modal-confirm .modal-header {
+            border-bottom: none;
+            position: relative;
+        }
+
+        .modal-confirm h4 {
+            text-align: center;
+            font-size: 26px;
+            margin: 30px 0 -10px;
+        }
+
+        .modal-confirm .close {
+            position: absolute;
+            top: -5px;
+            right: -2px;
+        }
+
+        .modal-confirm .modal-body {
+            color: #999;
+        }
+
+        .modal-confirm .modal-footer {
+            border: none;
+            text-align: center;
+            border-radius: 5px;
+            font-size: 13px;
+            padding: 10px 15px 25px;
+        }
+
+        .modal-confirm .modal-footer a {
+            color: #999;
+        }
+
+        .modal-confirm .icon-box {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
+            border-radius: 50%;
+            z-index: 9;
+            text-align: center;
+        }
+
+        .modal-confirm .icon-box i {
+            font-size: 86px;
+            margin-top: 2px;
+        }
+
+        .modal-confirm .btn {
+            color: #fff;
+            border-radius: 4px;
+            background: #60c7c1;
+            text-decoration: none;
+            transition: all 0.4s;
+            line-height: normal;
+            min-width: 120px;
+            border: none;
+            min-height: 40px;
+            border-radius: 3px;
+            margin: 0 5px;
+            outline: none !important;
+        }
+
+        .modal-confirm .btn-info {
+            background: #c1c1c1;
+        }
+
+        .modal-confirm .btn-info:hover,
+        .modal-confirm .btn-info:focus {
+            background: #a8a8a8;
+        }
+
+        .modal-confirm .btn-danger {
+            background: #f15e5e;
+        }
+
+        .modal-confirm .btn-danger:hover,
+        .modal-confirm .btn-danger:focus {
+            background: #ee3535;
+        }
+
+        .trigger-btn {
+            display: inline-block;
+            margin: 100px auto;
+        }
+    </style>
 
 </head>
 @include('layouts.sideNavBar')
@@ -23,7 +121,6 @@
     <script src="https://use.fontawesome.com/10376d63f8.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
-
     <div class="container-fluid m-0">
 
         <table class="table table-hover">
@@ -34,47 +131,52 @@
                 <th scope="col">Action</th>
             </thead>
             <tbody>
-    @foreach($Users as $User)
-        <tr>
-            <td class="id" style="display:none;">{{$User->id}}</td>
-            <th scope="row">{{$nb+=1}}</td>
-            <td class="full_name">{{$User -> name}}</td>
-            <td class="email">{{$User -> email}}</td>
-            <td>
-                <button type="submit" data-toggle="modal" data-target="#deleteModal" data-id="{{$User -> id}}" class="open-DeleteVehicleTypeDialog">Delete</button>
-            </td>
-            @endforeach
-        </tr>
-    </tbody>
+                @foreach($Users as $User)
+                <tr>
+                    <td class="id" style="display: none;">{{$User->id}}</td>
+                    <th scope="row">{{$nb+=1}}</td>
+                    <td class="full_name">{{$User -> name}}</td>
+                    <td class="email">{{$User -> email}}</td>
+                    <td>
+                        <button type="submit" data-toggle="modal" data-target="#deleteModal" class="btn btn-warning openDeleteUser">Delete</button>
+                    </td>
+                    @endforeach
+                </tr>
+            </tbody>
         </table>
-    </div>
-        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                @csrf
+
+        <div id="deleteModal" class="modal fade">
+            <div class="modal-dialog modal-confirm">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Delete User</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <input type="hidden" name="userId" id="userId" value="" />
-                        <p>Are you sure you want to delete this User ?</p>
-                        <button type="submit">Delete</button>
-                    </div>
+                    <form action="{{route('admin.deleteUser')}}" method="post">
+                        @csrf
+                        <div class="modal-header">
+                            <div class="icon-box" style="color: #f15e5e;border: 3px solid #f15e5e;">
+                                <i class="fas fa-times-circle" style="font-size:5em;"></i>
+                            </div>
+                        </div>
+                        <h4 class="modal-title">Deleting User</h4>
+                        <div class="modal-body">
+                            <input type="hidden" name="userId" class="form-control" id="userId">
+                            <p>Are you sure you want to delete this User ?</p>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-center">
+                            <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-success">Delete</button>
+                        </div>
+                    </form>
                 </div>
-                </form>
             </div>
         </div>
+    </div>
 
-        <!--modal-->
-        <script>
-            $(document).on("click", ".open-DeleteVehicleTypeDialog", function() {
-                var userId = $(this).data('id');
-                $(".modal-body #userId").val(userId);
-            });
-        </script>
+    <!--modal-->
+    <script>
+        $(document).on('click', '.openDeleteUser', function() {
+            var id = $(this).closest("tr").find('td.id').text();
+            $('#userId').val(id);
+        });
+    </script>
 </body>
 
 </html>

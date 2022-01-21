@@ -18,8 +18,6 @@ use Illuminate\Support\Facades\Notification;
 */
 
 Route::get('/', function () {
-    $user = User::get();
-    Notification::send($user, new AdminApprovedReservation());
     return view('welcome');
 });
 

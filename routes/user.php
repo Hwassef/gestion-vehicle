@@ -5,8 +5,15 @@ Route::get('/vehicles', [App\Http\Controllers\User\VehiclesController::class, 'i
 Route::get('/vehicles/reserve/{id}', [App\Http\Controllers\User\VehiclesController::class, 'displayReserveVehicle'])->name('reserve_vehicle_page');
 Route::post('/vehicles/reserve/{id}', [App\Http\Controllers\User\VehiclesController::class, 'reserveVehicle'])->name('userReserveVehicle');
 Route::get('/reservations', [App\Http\Controllers\User\ReservationController::class, 'index'])->name('user.showReservations');
+Route::get('/contact', [App\Http\Controllers\User\ContactController::class, 'index'])->name('user.showContact');
+Route::post('/contact', [App\Http\Controllers\User\ContactController::class, 'postLetter'])->name('user.postLetter');
+
+
+
+
+
+
 Route::get('/notify', function(){
     event(new App\Events\adminApproved('Congratulation Your Reservation Has Been Approved'));
     return "Event Has Been Sent";
-})
-?>
+});
